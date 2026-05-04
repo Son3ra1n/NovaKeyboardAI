@@ -17,64 +17,70 @@ A powerful, professional-grade AI-enhanced iOS keyboard extension built with Swi
 ### 🎭 AI-Powered Intelligence
 Nova isn't just a keyboard; it's an assistant. Using the **Groq API (Llama 3.3 70B)**, it brings desktop-class AI to your fingertips with zero latency.
 
-<p align="center">
-  <img src="assets/tone_menu.png" width="30%" alt="AI Tone Menu">
-  <img src="assets/keyboard_dark.png" width="30%" alt="Dark Mode">
-  <img src="assets/keyboard_light.png" width="30%" alt="Light Mode">
-</p>
-
-- **AI Tone Shift (Swipe Up):** Instantly rewrite any text to be Professional, Casual, Friendly, or Creative.
-- **AI Translation (Swipe Down):** Real-time translation between 13+ languages.
-- **AI Spell Check (Swipe Left):** Fix grammar and spelling errors instantly.
-- **Rich Emoji Grid:** 300+ emojis organized into 7 searchable categories.
-- **Smart Shortcuts:** Define custom triggers (e.g., `@@` → `your@email.com`).
+| Feature | Gesture | What it does |
+|---------|---------|-------------|
+| 🎭 **AI Tone Shift** | Swipe Up | Rewrite text as Professional, Casual, Friendly, or Creative |
+| 🌍 **AI Translation** | Swipe Down | Translate between 13+ languages instantly |
+| ✏️ **AI Spell Check** | Swipe Left | Fix grammar and spelling (language-aware) |
+| 🎯 **Cursor Control** | Hold Space + Drag | Move cursor precisely |
+| 📋 **Smart Clipboard** | Tap banner | One-tap paste recently copied text |
 
 ### 🛠️ Professional Customization
-Tailor the keyboard to your typing style.
-
-<p align="center">
-  <img src="assets/settings_main.png" width="45%" alt="Settings Main">
-  <img src="assets/settings_setup.png" width="45%" alt="Gestures and Setup">
-</p>
-
-- **Dynamic Sizing:** Adjust Keyboard Height, Key Height, and Font Size.
-- **Haptic & Sound:** Premium tactile feedback and key sounds.
-- **Dual Layouts:** Full support for Turkish and English layouts.
-- **Cursor Control:** Hold Space Bar + Drag for precise text navigation.
+- **Dynamic Sizing:** Adjust Keyboard Height, Key Height, and Font Size with live preview.
+- **Haptic & Sound:** Premium tactile feedback and key sounds (toggleable).
+- **Dual Layouts:** Full support for Turkish and English QWERTY.
+- **Long-Press Alternates:** Hold any letter to access accented characters (À, Ş, Ç, Ğ, etc.).
+- **Rich Emoji Grid:** 300+ emojis organized into 7 searchable categories.
+- **Smart Shortcuts:** Define custom triggers (e.g., `@@` → `your@email.com`).
 
 ---
 
 ## 🔐 Privacy & Security
 
-- **Bring Your Own Key (BYOK):** Use your own personal [Groq API Key](https://console.groq.com/keys).
+- **Bring Your Own Key (BYOK):** Use your own personal [Groq API Key](https://console.groq.com/keys) — free tier available.
 - **On-Device Storage:** Your API key and shortcuts never leave your device.
-- **Zero Analytics:** No tracking, no data collection.
-- **Secure Handling:** Uses iOS App Groups for secure local storage.
+- **Zero Analytics:** No tracking, no data collection, no telemetry.
+- **ATS Restricted:** Network access limited to `api.groq.com` only.
+- **Full Access Detection:** Keyboard automatically detects and redirects to Settings if Full Access is off.
 
 ---
 
 ## 📱 Requirements
 
 - **iOS 14.0 - 17.0+** (Tested on TrollStore 2 & Sideloaded environments)
-- **Groq API Key** (Free tier available)
+- **Groq API Key** ([Get one free here](https://console.groq.com/keys))
 
 ---
 
 ## 🚀 Installation & Setup
 
-1. **Sideload:** Install the `.tipa` via TrollStore or AltStore.
-2. **Enable:** Go to `Settings > General > Keyboard > Keyboards > Add New Keyboard`.
-3. **Full Access:** Select `Nova Keyboard AI` and toggle **Allow Full Access** (Required for AI features).
-4. **Configure:** Open the Nova app, paste your Groq key, and you're ready!
+1. **Download** the `.tipa` from [Releases](https://github.com/Son3ra1n/NovaKeyboardAI/releases).
+2. **Sideload** via **TrollStore** or **AltStore**.
+3. **Enable:** `Settings → General → Keyboard → Keyboards → Add New Keyboard → Nova Keyboard AI`.
+4. **Full Access:** Toggle **Allow Full Access** (required for AI features).
+5. **Configure:** Open the Nova app, paste your Groq API key, and you're ready!
+
+> **Note:** Jailbreak is NOT required. TrollStore works on many devices without jailbreak.
 
 ---
 
-## 🏗️ Performance Highlights
+## 🏗️ Technical Highlights
 
 - **Cached Engine:** Zero `UserDefaults` reads during active typing.
 - **Simultaneous Gestures:** Swipe detection doesn't block tap latency.
-- **Static Locales:** Optimized for Turkish language processing.
-- **SwiftUI + UIKit Hybrid:** The best of both worlds for performance and UI flexibility.
+- **Result-Based AI:** Typed error handling with HTTP status differentiation (401/429/5xx).
+- **Safe Async Replacement:** `hasSuffix` verification prevents text loss during AI requests.
+- **SwiftUI + UIKit Hybrid:** Best of both worlds for performance and UI flexibility.
+
+---
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions and fork guidelines.
+
+## 🔒 Security
+
+See [SECURITY.md](SECURITY.md) for our privacy model and threat analysis.
 
 ---
 
