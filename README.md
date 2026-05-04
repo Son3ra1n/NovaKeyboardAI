@@ -17,6 +17,12 @@ A powerful, professional-grade AI-enhanced iOS keyboard extension built with Swi
 ### 🎭 AI-Powered Intelligence
 Nova isn't just a keyboard; it's an assistant. Using the **Groq API (Llama 3.3 70B)**, it brings desktop-class AI to your fingertips with zero latency.
 
+<p align="center">
+  <img src="assets/tone_menu.png" width="30%" alt="AI Tone Menu">
+  <img src="assets/keyboard_dark.png" width="30%" alt="Dark Mode">
+  <img src="assets/keyboard_light.png" width="30%" alt="Light Mode">
+</p>
+
 | Feature | Gesture | What it does |
 |---------|---------|-------------|
 | 🎭 **AI Tone Shift** | Swipe Up | Rewrite text as Professional, Casual, Friendly, or Creative |
@@ -26,6 +32,13 @@ Nova isn't just a keyboard; it's an assistant. Using the **Groq API (Llama 3.3 7
 | 📋 **Smart Clipboard** | Tap banner | One-tap paste recently copied text |
 
 ### 🛠️ Professional Customization
+Tailor the keyboard to your typing style.
+
+<p align="center">
+  <img src="assets/settings_main.png" width="45%" alt="Settings & Customization">
+  <img src="assets/settings_setup.png" width="45%" alt="Gestures & Setup Guide">
+</p>
+
 - **Dynamic Sizing:** Adjust Keyboard Height, Key Height, and Font Size with live preview.
 - **Haptic & Sound:** Premium tactile feedback and key sounds (toggleable).
 - **Dual Layouts:** Full support for Turkish and English QWERTY.
