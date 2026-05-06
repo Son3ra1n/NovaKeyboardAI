@@ -21,6 +21,9 @@
 		NK0VIEWKY0000000000000B0 /* NovaKeyboardView+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEWKY0000000000000R0 /* NovaKeyboardView+Keys.swift */; };
 		NK0VIEWLG0000000000000B0 /* NovaKeyboardView+Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEWLG0000000000000R0 /* NovaKeyboardView+Logic.swift */; };
 		NK0INPENG000000000000B0 /* InputEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0INPENG000000000000R0 /* InputEngine.swift */; };
+		NKTEST00000000000000B001 /* InputEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = NKTEST00000000000000R001 /* InputEngineTests.swift */; };
+		NKTEST00000000000000B002 /* InputEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0INPENG000000000000R0 /* InputEngine.swift */; };
+		NKTEST00000000000000B003 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0MOD0000000000000000R0 /* Models.swift */; };
 		BE42791F29D12807005247D8 /* NovaKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BE42791829D12807005247D8 /* NovaKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BE638D0929D29DB40038278B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4278EE29D127F0005247D8 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -71,6 +74,8 @@
 		BE42792429D12A6E005247D8 /* NovaKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NovaKeyboard.entitlements; sourceTree = "<group>"; };
 		BE42792529D12A79005247D8 /* NovaKeyboardAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NovaKeyboardAI.entitlements; sourceTree = "<group>"; };
 		BEA37B6E29F09A2200CA9E00 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = README.md; sourceTree = "<group>"; };
+		NKTEST00000000000000P001 /* NovaKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NovaKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		NKTEST00000000000000R001 /* InputEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEngineTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +93,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		NKTEST00000000000000FW01 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -97,6 +109,7 @@
 				BEA37B6E29F09A2200CA9E00 /* README.md */,
 				BE4278E929D127EF005247D8 /* NovaKeyboardAI */,
 				BE42791929D12807005247D8 /* NovaKeyboard */,
+				NKTEST00000000000000GR01 /* NovaKeyboardTests */,
 				BE4278E829D127EF005247D8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -106,6 +119,7 @@
 			children = (
 				BE4278E729D127EF005247D8 /* NovaKeyboardAI.app */,
 				BE42791829D12807005247D8 /* NovaKeyboard.appex */,
+				NKTEST00000000000000P001 /* NovaKeyboardTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,6 +164,14 @@
 			path = NovaKeyboard;
 			sourceTree = "<group>";
 		};
+		NKTEST00000000000000GR01 /* NovaKeyboardTests */ = {
+			isa = PBXGroup;
+			children = (
+				NKTEST00000000000000R001 /* InputEngineTests.swift */,
+			);
+			path = NovaKeyboardTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -189,6 +211,23 @@
 			productReference = BE42791829D12807005247D8 /* NovaKeyboard.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		NKTEST00000000000000NT01 /* NovaKeyboardTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = NKTEST00000000000000CL01 /* Build configuration list for PBXNativeTarget "NovaKeyboardTests" */;
+			buildPhases = (
+				NKTEST00000000000000SR01 /* Sources */,
+				NKTEST00000000000000FW01 /* Frameworks */,
+				NKTEST00000000000000RS01 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NovaKeyboardTests;
+			productName = NovaKeyboardTests;
+			productReference = NKTEST00000000000000P001 /* NovaKeyboardTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -222,6 +261,7 @@
 			targets = (
 				BE4278E629D127EF005247D8 /* NovaKeyboardAI */,
 				BE42791729D12807005247D8 /* NovaKeyboard */,
+				NKTEST00000000000000NT01 /* NovaKeyboardTests */,
 			);
 		};
 /* End PBXProject section */
@@ -241,6 +281,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE638D0929D29DB40038278B /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		NKTEST00000000000000RS01 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +317,16 @@
 				NK0VIEWKY0000000000000B0 /* NovaKeyboardView+Keys.swift in Sources */,
 				NK0VIEWLG0000000000000B0 /* NovaKeyboardView+Logic.swift in Sources */,
 				NK0INPENG000000000000B0 /* InputEngine.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		NKTEST00000000000000SR01 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				NKTEST00000000000000B001 /* InputEngineTests.swift in Sources */,
+				NKTEST00000000000000B002 /* InputEngine.swift in Sources */,
+				NKTEST00000000000000B003 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +589,48 @@
 			};
 			name = Release;
 		};
+		NKTEST0000000000000DBG01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.soner.NovaAI.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		NKTEST0000000000000REL01 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.soner.NovaAI.Tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -558,6 +657,15 @@
 			buildConfigurations = (
 				BE42792129D12807005247D8 /* Debug */,
 				BE42792229D12807005247D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		NKTEST00000000000000CL01 /* Build configuration list for PBXNativeTarget "NovaKeyboardTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				NKTEST0000000000000DBG01 /* Debug */,
+				NKTEST0000000000000REL01 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

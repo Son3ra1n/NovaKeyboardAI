@@ -1,0 +1,56 @@
+# SwiftLint Configuration for NovaKeyboardAI
+# Run: swiftlint lint --config .swiftlint.yml
+
+included:
+  - NovaKeyboard
+  - NovaKeyboardAI
+  - NovaKeyboardTests
+
+excluded:
+  - DerivedData
+  - DerivedDataAgent
+  - DerivedDataRelease
+  - DerivedDataReleaseUnsigned
+  - build
+  - build_device
+  - Payload
+  - scripts
+
+# Rules
+disabled_rules:
+  - trailing_whitespace          # too noisy for keyboard dev
+  - line_length                  # keyboard views have complex inline UI
+  - type_body_length             # View structs are naturally long
+  - file_length                  # Multi-page keyboard files are large by nature
+  - function_body_length         # Gesture callbacks are long
+
+opt_in_rules:
+  - empty_count                  # Prefer .isEmpty over .count == 0
+  - closure_spacing              # Consistent closure formatting
+  - force_unwrapping             # Warn on force unwraps (not error)
+  - implicitly_unwrapped_optional
+  - private_outlet
+  - redundant_nil_coalescing
+  - vertical_parameter_alignment
+
+# Thresholds
+identifier_name:
+  min_length:
+    warning: 1    # Allow single-char vars (i, x, k)
+  excluded:
+    - id
+    - ok
+    - s
+    - f
+    - h
+
+cyclomatic_complexity:
+  warning: 15
+  error: 25
+
+nesting:
+  type_level: 3
+  function_level: 5
+
+# Reporter
+reporter: "xcode"

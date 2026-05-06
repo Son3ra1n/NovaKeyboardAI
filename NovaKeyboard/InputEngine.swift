@@ -1,39 +1,25 @@
 import UIKit
 
-/// InputEngine: testable module isolating all UITextDocumentProxy operations.
-/// Single source of truth for text manipulation — views only consume.
-///
-/// IMPORTANT: We do NOT store a `proxy` reference because `textDocumentProxy`
-/// is a computed property on UIInputViewController that changes when the user
-/// switches text fields. Instead, we hold a weak ref to the controller and
-/// access `textDocumentProxy` live on every call.
-final class InputEngine {
+/// Protocol abstracting UITextDocumentProxy for testability.
+protocol TextProxyProtocol: AnyObject {
+    func insertText(_ text: String)
+    func deleteBackward()
+    func adjustTextPosition(byCharacterOffset offset: Int)
+    var documentContextBeforeInput: String? { get }
+}
 
+/// Thin wrapper making UITextDocumentProxy conform to TextProxyProtocol.
+/// We can't extend UITextDocumentProxy directly (it's an ObjC protocol).
+final class LiveTextProxy: TextProxyProtocol {
     private weak var controller: UIInputViewController?
-
-    /// Maximum characters that applyResult is allowed to auto-delete.
-    static let maxDeleteCap = 1200
-
-    /// The live proxy — always current, even after text field switches.
-    private var proxy: UITextDocumentProxy? {
-        controller?.textDocumentProxy
-    }
 
     init(controller: UIInputViewController) {
         self.controller = controller
     }
 
-    /// Test-only initializer: injects a mock proxy directly.
-    /// Do NOT use in production (proxy would go stale).
-    #if DEBUG
-    private weak var _testProxy: UITextDocumentProxy?
-    init(testProxy: UITextDocumentProxy) {
-        self._testProxy = testProxy
-        self.controller = nil
+    private var proxy: UITextDocumentProxy? {
+        controller?.textDocumentProxy
     }
-    #endif
-
-    // MARK: - Basic Operations
 
     func insertText(_ text: String) {
         proxy?.insertText(text)
@@ -43,12 +29,55 @@ final class InputEngine {
         proxy?.deleteBackward()
     }
 
-    func adjustCursor(by offset: Int) {
+    func adjustTextPosition(byCharacterOffset offset: Int) {
         proxy?.adjustTextPosition(byCharacterOffset: offset)
     }
 
+    var documentContextBeforeInput: String? {
+        proxy?.documentContextBeforeInput
+    }
+}
+
+/// InputEngine: testable module isolating all text proxy operations.
+/// Single source of truth for text manipulation — views only consume.
+///
+/// IMPORTANT: We do NOT store a proxy reference because `textDocumentProxy`
+/// is a computed property on UIInputViewController that changes when the user
+/// switches text fields. `LiveTextProxy` resolves this by reading the proxy
+/// live on every call. For tests, inject `MockTextProxy` directly.
+final class InputEngine {
+
+    private let proxy: TextProxyProtocol
+
+    /// Maximum characters that applyResult is allowed to auto-delete.
+    static let maxDeleteCap = 1200
+
+    /// Production initializer: uses controller's live textDocumentProxy.
+    init(controller: UIInputViewController) {
+        self.proxy = LiveTextProxy(controller: controller)
+    }
+
+    /// Test initializer: injects a mock proxy.
+    init(mockProxy: TextProxyProtocol) {
+        self.proxy = mockProxy
+    }
+
+    // MARK: - Basic Operations
+
+    func insertText(_ text: String) {
+        proxy.insertText(text)
+    }
+
+    func deleteBackward() {
+        proxy.deleteBackward()
+    }
+
+    func adjustCursor(by offset: Int) {
+        proxy.adjustTextPosition(byCharacterOffset: offset)
+    }
+
     var contextBeforeInput: String {
-        proxy?.documentContextBeforeInput ?? ""
+        proxy.documentContextBeforeInput ?? ""
     }
 
     // MARK: - Smart Replace (safe pipeline)
@@ -83,9 +112,9 @@ final class InputEngine {
 
         // Execute replace
         for _ in 0..<originalText.count {
-            proxy?.deleteBackward()
+            proxy.deleteBackward()
         }
-        proxy?.insertText(newText)
+        proxy.insertText(newText)
 
         return ReplaceResult(success: true, reason: "Done!")
     }
@@ -109,9 +138,9 @@ final class InputEngine {
         for (trigger, replacement) in shortcuts {
             if context.hasSuffix(trigger) {
                 for _ in 0..<trigger.count {
-                    proxy?.deleteBackward()
+                    proxy.deleteBackward()
                 }
-                proxy?.insertText(replacement)
+                proxy.insertText(replacement)
                 return true
             }
         }
