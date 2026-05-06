@@ -84,6 +84,10 @@ enum AppGroupKeys {
     static let textShortcuts = "text_shortcuts"
 }
 
+extension Notification.Name {
+    static let novaKeyboardDidAppear = Notification.Name("novaKeyboardDidAppear")
+}
+
 /// SharedSettings: multi-layer settings bridge that works across
 /// host app ↔ keyboard extension, even without proper provisioning
 /// (TrollStore, ad-hoc, etc).
@@ -153,16 +157,19 @@ enum SharedSettings {
 
     static func double(forKey key: String) -> Double? {
         if let suite = UserDefaults(suiteName: AppGroupKeys.suiteName) {
-            let val = suite.double(forKey: key)
-            if val != 0 { return val }
+            if suite.object(forKey: key) != nil {
+                return suite.double(forKey: key)
+            }
         }
         if let url = fileURL(),
            let dict = NSDictionary(contentsOf: url) as? [String: Any],
-           let val = dict[key] as? Double {
-            return val
+           let val = dict[key] as? NSNumber {
+            return val.doubleValue
         }
-        let std = UserDefaults.standard.double(forKey: "nova_\(key)")
-        return std != 0 ? std : nil
+        if UserDefaults.standard.object(forKey: "nova_\(key)") != nil {
+            return UserDefaults.standard.double(forKey: "nova_\(key)")
+        }
+        return nil
     }
 
     static func bool(forKey key: String, defaultValue: Bool = true) -> Bool {

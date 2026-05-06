@@ -34,7 +34,8 @@ struct CharKeyView: View {
 
     private static let turkishLocale = Locale(identifier: "tr")
     private static let longPressThreshold: TimeInterval = 0.35
-    private static let tapSlop: CGFloat = 12
+    private static let tapSlop: CGFloat = 20
+    private static let maxTapDuration: TimeInterval = 0.25
 
     func turkishLowercase(_ k: String) -> String {
         if keyboardLayout == "Turkish" {
@@ -81,7 +82,7 @@ struct CharKeyView: View {
 
                         // Check for long-press threshold
                         let elapsed = Date().timeIntervalSince(touchDownTime)
-                        if elapsed >= Self.longPressThreshold && !isInLongPress && !hasFired {
+                        if elapsed >= Self.longPressThreshold && !isInLongPress && !hasFired && !dragExceededTapSlop {
                             isInLongPress = true
                             if let alts = AlternateCharacters.map[key.uppercased()], !alts.isEmpty {
                                 longPressKey = key
@@ -122,7 +123,9 @@ struct CharKeyView: View {
                             isInLongPress = false
                         } else if !hasFired {
                             // === TOUCH UP INSIDE: normal key insert ===
-                            guard !dragExceededTapSlop else { return }
+                            // Reject if finger moved too far OR held too long without long-press
+                            let tapDuration = Date().timeIntervalSince(touchDownTime)
+                            guard !dragExceededTapSlop && tapDuration < Self.maxTapDuration else { return }
                             hasFired = true
                             engine.insertText(displayChar)
                             playKeySoundAction()
@@ -160,7 +163,9 @@ struct SpecialCharKeyView: View {
     @State private var isHighlighted = false
     @State private var hasFired = false
     @State private var dragExceededTapSlop = false
-    private static let tapSlop: CGFloat = 12
+    @State private var touchDownTime: Date = .distantPast
+    private static let tapSlop: CGFloat = 20
+    private static let maxTapDuration: TimeInterval = 0.25
 
     var body: some View {
         Text(key)
@@ -179,6 +184,7 @@ struct SpecialCharKeyView: View {
                             isHighlighted = true
                             hasFired = false
                             dragExceededTapSlop = false
+                            touchDownTime = Date()
                             if hapticEnabled { impactGenerator.prepare() }
                         }
                         let d = hypot(value.translation.width, value.translation.height)
@@ -189,7 +195,8 @@ struct SpecialCharKeyView: View {
                     .onEnded { _ in
                         defer { isHighlighted = false }
                         if !hasFired {
-                            guard !dragExceededTapSlop else { return }
+                            let tapDuration = Date().timeIntervalSince(touchDownTime)
+                            guard !dragExceededTapSlop && tapDuration < Self.maxTapDuration else { return }
                             hasFired = true
                             engine.insertText(key)
                             playKeySoundAction()

@@ -116,6 +116,10 @@ struct NovaKeyboardView: View {
             impactGenerator.prepare()
             selectionGenerator.prepare()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .novaKeyboardDidAppear)) { _ in
+            loadCachedSettings()
+            loadShortcuts()
+        }
     }
 
     // MARK: - Helpers for child views

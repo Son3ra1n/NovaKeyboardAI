@@ -7,7 +7,7 @@ class KeyboardViewController: UIInputViewController {
     private var didShowFullAccessAlert = false
 
     private var customHeight: CGFloat {
-        let h = UserDefaults(suiteName: AppGroupKeys.suiteName)?.double(forKey: AppGroupKeys.keyboardHeight) ?? 216
+        let h = SharedSettings.double(forKey: AppGroupKeys.keyboardHeight) ?? 216
         return h >= 180 ? CGFloat(h) : 216
     }
 
@@ -59,6 +59,14 @@ class KeyboardViewController: UIInputViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         heightConstraint?.constant = customHeight
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Force-reload height every time keyboard appears (settings may have changed)
+        heightConstraint?.constant = customHeight
+        // Notify SwiftUI view to reload settings
+        NotificationCenter.default.post(name: .novaKeyboardDidAppear, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
