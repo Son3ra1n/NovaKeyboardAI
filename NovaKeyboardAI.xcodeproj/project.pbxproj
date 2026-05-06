@@ -13,6 +13,14 @@
 		BE4278EF29D127F0005247D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4278EE29D127F0005247D8 /* Assets.xcassets */; };
 		BE4278F229D127F0005247D8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4278F129D127F0005247D8 /* Preview Assets.xcassets */; };
 		BE42791B29D12807005247D8 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42791A29D12807005247D8 /* KeyboardViewController.swift */; };
+		NK0MOD0000000000000000B0 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0MOD0000000000000000R0 /* Models.swift */; };
+		NK0ENG0000000000000000B0 /* NovaAIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0ENG0000000000000000R0 /* NovaAIEngine.swift */; };
+		NK0VIEW000000000000000B0 /* NovaKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEW000000000000000R0 /* NovaKeyboardView.swift */; };
+		NK0VIEWUI0000000000000B0 /* NovaKeyboardView+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEWUI0000000000000R0 /* NovaKeyboardView+UI.swift */; };
+		NK0VIEWPG0000000000000B0 /* NovaKeyboardView+Pages.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEWPG0000000000000R0 /* NovaKeyboardView+Pages.swift */; };
+		NK0VIEWKY0000000000000B0 /* NovaKeyboardView+Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEWKY0000000000000R0 /* NovaKeyboardView+Keys.swift */; };
+		NK0VIEWLG0000000000000B0 /* NovaKeyboardView+Logic.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0VIEWLG0000000000000R0 /* NovaKeyboardView+Logic.swift */; };
+		NK0INPENG000000000000B0 /* InputEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0INPENG000000000000R0 /* InputEngine.swift */; };
 		BE42791F29D12807005247D8 /* NovaKeyboard.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BE42791829D12807005247D8 /* NovaKeyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BE638D0929D29DB40038278B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4278EE29D127F0005247D8 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
@@ -51,6 +59,14 @@
 		BE4278F129D127F0005247D8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BE42791829D12807005247D8 /* NovaKeyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NovaKeyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE42791A29D12807005247D8 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		NK0MOD0000000000000000R0 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		NK0ENG0000000000000000R0 /* NovaAIEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaAIEngine.swift; sourceTree = "<group>"; };
+		NK0VIEW000000000000000R0 /* NovaKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovaKeyboardView.swift; sourceTree = "<group>"; };
+		NK0VIEWUI0000000000000R0 /* NovaKeyboardView+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NovaKeyboardView+UI.swift"; sourceTree = "<group>"; };
+		NK0VIEWPG0000000000000R0 /* NovaKeyboardView+Pages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NovaKeyboardView+Pages.swift"; sourceTree = "<group>"; };
+		NK0VIEWKY0000000000000R0 /* NovaKeyboardView+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NovaKeyboardView+Keys.swift"; sourceTree = "<group>"; };
+		NK0VIEWLG0000000000000R0 /* NovaKeyboardView+Logic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NovaKeyboardView+Logic.swift"; sourceTree = "<group>"; };
+		NK0INPENG000000000000R0 /* InputEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEngine.swift; sourceTree = "<group>"; };
 		BE42791C29D12807005247D8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE42792429D12A6E005247D8 /* NovaKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NovaKeyboard.entitlements; sourceTree = "<group>"; };
 		BE42792529D12A79005247D8 /* NovaKeyboardAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NovaKeyboardAI.entitlements; sourceTree = "<group>"; };
@@ -121,6 +137,14 @@
 			children = (
 				BE42792429D12A6E005247D8 /* NovaKeyboard.entitlements */,
 				BE42791A29D12807005247D8 /* KeyboardViewController.swift */,
+				NK0MOD0000000000000000R0 /* Models.swift */,
+				NK0ENG0000000000000000R0 /* NovaAIEngine.swift */,
+				NK0VIEW000000000000000R0 /* NovaKeyboardView.swift */,
+				NK0VIEWUI0000000000000R0 /* NovaKeyboardView+UI.swift */,
+				NK0VIEWPG0000000000000R0 /* NovaKeyboardView+Pages.swift */,
+				NK0VIEWKY0000000000000R0 /* NovaKeyboardView+Keys.swift */,
+				NK0VIEWLG0000000000000R0 /* NovaKeyboardView+Logic.swift */,
+				NK0INPENG000000000000R0 /* InputEngine.swift */,
 				BE42791C29D12807005247D8 /* Info.plist */,
 			);
 			path = NovaKeyboard;
@@ -238,6 +262,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE42791B29D12807005247D8 /* KeyboardViewController.swift in Sources */,
+				NK0MOD0000000000000000B0 /* Models.swift in Sources */,
+				NK0ENG0000000000000000B0 /* NovaAIEngine.swift in Sources */,
+				NK0VIEW000000000000000B0 /* NovaKeyboardView.swift in Sources */,
+				NK0VIEWUI0000000000000B0 /* NovaKeyboardView+UI.swift in Sources */,
+				NK0VIEWPG0000000000000B0 /* NovaKeyboardView+Pages.swift in Sources */,
+				NK0VIEWKY0000000000000B0 /* NovaKeyboardView+Keys.swift in Sources */,
+				NK0VIEWLG0000000000000B0 /* NovaKeyboardView+Logic.swift in Sources */,
+				NK0INPENG000000000000B0 /* InputEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

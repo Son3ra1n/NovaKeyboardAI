@@ -19,6 +19,10 @@ struct ContentView: View {
     @State private var newTrigger: String = ""
     @State private var newReplacement: String = ""
     
+    @State private var testText = ""
+    @State private var testResult = ""
+    @State private var testLatency = ""
+    
     let layouts = ["Turkish", "English"]
     let languages = ["Turkish", "English", "German", "French", "Spanish", "Arabic", "Russian", "Chinese", "Japanese", "Korean", "Italian", "Portuguese", "Dutch"]
     
@@ -191,6 +195,11 @@ struct ContentView: View {
                                 }
                             }
                             
+                            Text("Klavyede Tam Erişim (Full Access) açık olmalı; kapalıysa Groq anahtarı klavye tarafında görünmez (App Group kısıtı).")
+                                .font(.system(size: 10))
+                                .foregroundColor(.orange.opacity(0.85))
+                                .fixedSize(horizontal: false, vertical: true)
+
                             if !groqApiKey.isEmpty {
                                 HStack {
                                     Image(systemName: "checkmark.circle.fill").foregroundColor(.green)
@@ -253,6 +262,43 @@ struct ContentView: View {
                             if shortcuts.isEmpty {
                                 Text("Add shortcuts like @@ \u{2192} your@email.com")
                                     .font(.system(size: 10)).foregroundColor(.white.opacity(0.3))
+                            }
+                        }
+                    }
+                    
+                    // Test Area
+                    settingsCard(title: "Test Area", icon: "flask") {
+                        VStack(spacing: 10) {
+                            TextField("Type text to test", text: $testText)
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .padding(10)
+                                .background(Color.white.opacity(0.1))
+                                .cornerRadius(8)
+                                .foregroundColor(.white)
+                            
+                            HStack {
+                                Button("Translate") { runTest(isTranslate: true) }
+                                    .padding(.horizontal, 12).padding(.vertical, 8)
+                                    .background(Color(red: 0, green: 0.8, blue: 0.85))
+                                    .foregroundColor(.black).cornerRadius(6)
+                                Button("Spell Check") { runTest(isTranslate: false) }
+                                    .padding(.horizontal, 12).padding(.vertical, 8)
+                                    .background(Color.orange)
+                                    .foregroundColor(.white).cornerRadius(6)
+                            }
+                            
+                            if !testResult.isEmpty {
+                                Text(testResult)
+                                    .font(.system(size: 14))
+                                    .padding()
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(Color.white.opacity(0.05))
+                                    .cornerRadius(8)
+                                    .foregroundColor(.white)
+                            }
+                            if !testLatency.isEmpty {
+                                Text(testLatency)
+                                    .font(.caption).foregroundColor(.gray)
                             }
                         }
                     }
@@ -348,7 +394,7 @@ struct ContentView: View {
         fontSize = sharedDefaults?.double(forKey: "font_size") ?? 22
         keySounds = sharedDefaults?.bool(forKey: "key_sounds") ?? true
         hapticFeedback = sharedDefaults?.bool(forKey: "haptic_feedback") ?? true
-        groqApiKey = sharedDefaults?.string(forKey: "groq_api_key") ?? ""
+        groqApiKey = (sharedDefaults?.string(forKey: "groq_api_key") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         
         if keyboardHeight < 180 { keyboardHeight = 216 }
         if keyHeight < 30 { keyHeight = 42 }
@@ -363,6 +409,7 @@ struct ContentView: View {
     }
     
     func saveSettings() {
+        groqApiKey = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
         sharedDefaults?.set(nativeLanguage, forKey: "native_language")
         sharedDefaults?.set(targetLanguage, forKey: "target_language")
         sharedDefaults?.set(keyboardLayout, forKey: "keyboard_layout")
@@ -381,6 +428,62 @@ struct ContentView: View {
             sharedDefaults?.set(jsonStr, forKey: "text_shortcuts")
             sharedDefaults?.synchronize()
         }
+    }
+    
+    func runTest(isTranslate: Bool) {
+        guard !testText.isEmpty else { return }
+        guard !groqApiKey.isEmpty else {
+            testResult = "Error: API Key missing"
+            return
+        }
+        testResult = "Testing..."
+        testLatency = ""
+        let start = Date()
+        
+        let prompt: String
+        if isTranslate {
+            prompt = "Translate from \(nativeLanguage) to \(targetLanguage): \(testText). Return ONLY the translation."
+        } else {
+            prompt = "Fix spelling in \(nativeLanguage): \(testText). Return ONLY the corrected text."
+        }
+        
+        let endpoint = "https://api.groq.com/openai/v1/chat/completions"
+        let body: [String: Any] = [
+            "model": "llama-3.3-70b-versatile",
+            "messages": [["role": "user", "content": prompt]],
+            "temperature": 0.7,
+            "max_tokens": 500
+        ]
+        
+        guard let url = URL(string: endpoint),
+              let jsonData = try? JSONSerialization.data(withJSONObject: body) else { return }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(groqApiKey)", forHTTPHeaderField: "Authorization")
+        request.httpBody = jsonData
+        request.timeoutInterval = 15
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            let diff = Int(Date().timeIntervalSince(start) * 1000)
+            DispatchQueue.main.async {
+                testLatency = "\(diff) ms latency"
+                if let _ = error {
+                    testResult = "Network Error"
+                    return
+                }
+                guard let data = data,
+                      let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                      let choices = json["choices"] as? [[String: Any]],
+                      let message = choices.first?["message"] as? [String: Any],
+                      let text = message["content"] as? String else {
+                    testResult = "Parse Error"
+                    return
+                }
+                testResult = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+        }.resume()
     }
 }
 

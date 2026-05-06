@@ -12,6 +12,8 @@ xcuserdata/
 ## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
 build/
 DerivedData/
+DerivedDataRelease*/
+DerivedDataReleaseUnsigned*/
 *.moved-aside
 *.pbxuser
 !default.pbxuser
@@ -30,6 +32,9 @@ DerivedData/
 *.tipa
 *.dSYM.zip
 *.dSYM
+*.xcarchive
+*.app
+*.appex
 
 # Local / exported app bundles (do not commit binaries)
 Payload/
