@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    private let sharedDefaults = UserDefaults(suiteName: "group.com.soner.NovaAI")
-    
     @State private var nativeLanguage: String = "Turkish"
     @State private var targetLanguage: String = "English"
     @State private var keyboardLayout: String = "Turkish"
@@ -386,22 +384,22 @@ struct ContentView: View {
     }
     
     func loadSettings() {
-        nativeLanguage = sharedDefaults?.string(forKey: "native_language") ?? "Turkish"
-        targetLanguage = sharedDefaults?.string(forKey: "target_language") ?? "English"
-        keyboardLayout = sharedDefaults?.string(forKey: "keyboard_layout") ?? "Turkish"
-        keyboardHeight = sharedDefaults?.double(forKey: "keyboard_height") ?? 216
-        keyHeight = sharedDefaults?.double(forKey: "key_height") ?? 42
-        fontSize = sharedDefaults?.double(forKey: "font_size") ?? 22
-        keySounds = sharedDefaults?.bool(forKey: "key_sounds") ?? true
-        hapticFeedback = sharedDefaults?.bool(forKey: "haptic_feedback") ?? true
-        groqApiKey = (sharedDefaults?.string(forKey: "groq_api_key") ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        nativeLanguage = SharedSettings.string(forKey: AppGroupKeys.nativeLanguage) ?? "Turkish"
+        targetLanguage = SharedSettings.string(forKey: AppGroupKeys.targetLanguage) ?? "English"
+        keyboardLayout = SharedSettings.string(forKey: AppGroupKeys.keyboardLayout) ?? "Turkish"
+        keyboardHeight = SharedSettings.double(forKey: AppGroupKeys.keyboardHeight) ?? 216
+        keyHeight = SharedSettings.double(forKey: AppGroupKeys.keyHeight) ?? 42
+        fontSize = SharedSettings.double(forKey: AppGroupKeys.fontSize) ?? 22
+        keySounds = SharedSettings.bool(forKey: AppGroupKeys.keySounds, defaultValue: true)
+        hapticFeedback = SharedSettings.bool(forKey: AppGroupKeys.hapticFeedback, defaultValue: true)
+        groqApiKey = (SharedSettings.string(forKey: AppGroupKeys.groqApiKey) ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         
         if keyboardHeight < 180 { keyboardHeight = 216 }
         if keyHeight < 30 { keyHeight = 42 }
         if fontSize < 14 { fontSize = 22 }
         
         // Load shortcuts
-        if let jsonStr = sharedDefaults?.string(forKey: "text_shortcuts"),
+        if let jsonStr = SharedSettings.string(forKey: AppGroupKeys.textShortcuts),
            let data = jsonStr.data(using: .utf8),
            let dict = try? JSONSerialization.jsonObject(with: data) as? [String: String] {
             shortcuts = dict
@@ -411,23 +409,22 @@ struct ContentView: View {
     func saveSettings() {
         groqApiKey = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
         SharedSettings.save([
-            "native_language": nativeLanguage,
-            "target_language": targetLanguage,
-            "keyboard_layout": keyboardLayout,
-            "keyboard_height": keyboardHeight,
-            "key_height": keyHeight,
-            "font_size": fontSize,
-            "key_sounds": keySounds,
-            "haptic_feedback": hapticFeedback,
-            "groq_api_key": groqApiKey
+            AppGroupKeys.nativeLanguage: nativeLanguage,
+            AppGroupKeys.targetLanguage: targetLanguage,
+            AppGroupKeys.keyboardLayout: keyboardLayout,
+            AppGroupKeys.keyboardHeight: keyboardHeight,
+            AppGroupKeys.keyHeight: keyHeight,
+            AppGroupKeys.fontSize: fontSize,
+            AppGroupKeys.keySounds: keySounds,
+            AppGroupKeys.hapticFeedback: hapticFeedback,
+            AppGroupKeys.groqApiKey: groqApiKey
         ])
     }
     
     func saveShortcuts() {
         if let data = try? JSONSerialization.data(withJSONObject: shortcuts),
            let jsonStr = String(data: data, encoding: .utf8) {
-            sharedDefaults?.set(jsonStr, forKey: "text_shortcuts")
-            sharedDefaults?.synchronize()
+            SharedSettings.save([AppGroupKeys.textShortcuts: jsonStr])
         }
     }
     
