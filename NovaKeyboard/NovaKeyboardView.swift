@@ -45,8 +45,6 @@ struct NovaKeyboardView: View {
     @Environment(\.colorScheme) var colorScheme
     var isDark: Bool { colorScheme == .dark }
 
-    var shared: UserDefaults? { UserDefaults(suiteName: AppGroupKeys.suiteName) }
-
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 2) {

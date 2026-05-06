@@ -13,9 +13,7 @@ final class NovaAIEngine {
     }
 
     private var groqKey: String {
-        let suite = UserDefaults(suiteName: AppGroupKeys.suiteName)
-        suite?.synchronize()
-        let raw = suite?.string(forKey: AppGroupKeys.groqApiKey) ?? ""
+        let raw = SharedSettings.string(forKey: AppGroupKeys.groqApiKey) ?? ""
         return raw.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 

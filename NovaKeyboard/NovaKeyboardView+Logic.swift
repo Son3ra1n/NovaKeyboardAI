@@ -58,9 +58,8 @@ extension NovaKeyboardView {
             return
         }
 
-        let s = UserDefaults(suiteName: AppGroupKeys.suiteName)
-        let nativeLang = s?.string(forKey: AppGroupKeys.nativeLanguage) ?? "Turkish"
-        let targetLang = s?.string(forKey: AppGroupKeys.targetLanguage) ?? "English"
+        let nativeLang = SharedSettings.string(forKey: AppGroupKeys.nativeLanguage) ?? "Turkish"
+        let targetLang = SharedSettings.string(forKey: AppGroupKeys.targetLanguage) ?? "English"
 
         if nativeLang.lowercased() == targetLang.lowercased() {
             statusMessage = "Diller aynı (iptal)"
@@ -91,8 +90,7 @@ extension NovaKeyboardView {
         isProcessing = true
         statusMessage = "Fixing..."
 
-        let s = UserDefaults(suiteName: AppGroupKeys.suiteName)
-        let lang = s?.string(forKey: AppGroupKeys.nativeLanguage) ?? "Turkish"
+        let lang = SharedSettings.string(forKey: AppGroupKeys.nativeLanguage) ?? "Turkish"
         let prompt = "The text was written in \(lang). Fix spelling and grammar only in \(lang). Do not translate or use words from other languages. Keep the same meaning and tone. Return ONLY the corrected text, nothing else: \(text)"
 
         let signpostID = OSSignpostID(log: aiLog)
@@ -138,14 +136,13 @@ extension NovaKeyboardView {
     }
 
     func loadCachedSettings() {
-        let s = UserDefaults(suiteName: AppGroupKeys.suiteName)
-        let h = s?.double(forKey: AppGroupKeys.keyHeight) ?? 42
+        let h = SharedSettings.double(forKey: AppGroupKeys.keyHeight) ?? 42
         customKeyHeight = h >= 30 ? CGFloat(h) : 42
-        let f = s?.double(forKey: AppGroupKeys.fontSize) ?? 22
+        let f = SharedSettings.double(forKey: AppGroupKeys.fontSize) ?? 22
         customFontSize = f >= 14 ? CGFloat(f) : 22
-        keySoundsEnabled = s?.bool(forKey: AppGroupKeys.keySounds) ?? true
-        hapticEnabled = s?.bool(forKey: AppGroupKeys.hapticFeedback) ?? true
-        keyboardLayout = s?.string(forKey: AppGroupKeys.keyboardLayout) ?? "Turkish"
+        keySoundsEnabled = SharedSettings.bool(forKey: AppGroupKeys.keySounds)
+        hapticEnabled = SharedSettings.bool(forKey: AppGroupKeys.hapticFeedback)
+        keyboardLayout = SharedSettings.string(forKey: AppGroupKeys.keyboardLayout) ?? "Turkish"
 
         let rows = KeyboardLayouts.rows(for: keyboardLayout)
         cachedRow1 = rows.row1
@@ -154,7 +151,7 @@ extension NovaKeyboardView {
     }
 
     func loadShortcuts() {
-        guard let jsonStr = shared?.string(forKey: AppGroupKeys.textShortcuts),
+        guard let jsonStr = SharedSettings.string(forKey: AppGroupKeys.textShortcuts),
               let data = jsonStr.data(using: .utf8),
               let dict = try? JSONSerialization.jsonObject(with: data) as? [String: String] else { return }
         cachedShortcuts = dict

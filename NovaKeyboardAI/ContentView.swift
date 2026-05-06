@@ -410,16 +410,17 @@ struct ContentView: View {
     
     func saveSettings() {
         groqApiKey = groqApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
-        sharedDefaults?.set(nativeLanguage, forKey: "native_language")
-        sharedDefaults?.set(targetLanguage, forKey: "target_language")
-        sharedDefaults?.set(keyboardLayout, forKey: "keyboard_layout")
-        sharedDefaults?.set(keyboardHeight, forKey: "keyboard_height")
-        sharedDefaults?.set(keyHeight, forKey: "key_height")
-        sharedDefaults?.set(fontSize, forKey: "font_size")
-        sharedDefaults?.set(keySounds, forKey: "key_sounds")
-        sharedDefaults?.set(hapticFeedback, forKey: "haptic_feedback")
-        sharedDefaults?.set(groqApiKey, forKey: "groq_api_key")
-        sharedDefaults?.synchronize()
+        SharedSettings.save([
+            "native_language": nativeLanguage,
+            "target_language": targetLanguage,
+            "keyboard_layout": keyboardLayout,
+            "keyboard_height": keyboardHeight,
+            "key_height": keyHeight,
+            "font_size": fontSize,
+            "key_sounds": keySounds,
+            "haptic_feedback": hapticFeedback,
+            "groq_api_key": groqApiKey
+        ])
     }
     
     func saveShortcuts() {

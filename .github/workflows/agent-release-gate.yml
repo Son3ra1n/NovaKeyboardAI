@@ -1,0 +1,25 @@
+name: Agent Release Gate
+
+on:
+  push:
+    branches: ["main", "master"]
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: "Policy profile: appstore or tweak"
+        required: false
+        default: "appstore"
+
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    env:
+      AGENT_PROFILE: ${{ github.event.inputs.profile || 'appstore' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run release gate checks
+        run: |
+          chmod +x scripts/agents/ci_review.sh
+          bash scripts/agents/ci_review.sh "${AGENT_PROFILE}"

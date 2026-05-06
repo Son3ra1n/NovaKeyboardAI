@@ -10,6 +10,7 @@
 		BE4278EB29D127EF005247D8 /* NovaKeyboardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4278EA29D127EF005247D8 /* NovaKeyboardApp.swift */; };
 		BE4278ED29D127EF005247D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4278EC29D127EF005247D8 /* ContentView.swift */; };
 		SAFARI0002 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = SAFARI0001 /* SafariView.swift */; };
+		NKHOST0000000000000000B1 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = NK0MOD0000000000000000R0 /* Models.swift */; };
 		BE4278EF29D127F0005247D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4278EE29D127F0005247D8 /* Assets.xcassets */; };
 		BE4278F229D127F0005247D8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4278F129D127F0005247D8 /* Preview Assets.xcassets */; };
 		BE42791B29D12807005247D8 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE42791A29D12807005247D8 /* KeyboardViewController.swift */; };
@@ -301,6 +302,7 @@
 				BE4278ED29D127EF005247D8 /* ContentView.swift in Sources */,
 				SAFARI0002 /* SafariView.swift in Sources */,
 				BE4278EB29D127EF005247D8 /* NovaKeyboardApp.swift in Sources */,
+				NKHOST0000000000000000B1 /* Models.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
