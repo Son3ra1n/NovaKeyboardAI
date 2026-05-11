@@ -1,0 +1,11 @@
+# Jailbreak tweak profile rules
+PROFILE_NAME=tweak
+
+# Files to scan
+SCAN_GLOBS="*.{xm,x,m,mm,h,plist,mk,md}"
+
+# Fail if any of these patterns exist
+DENY_PATTERNS="API_KEY=|sk-[A-Za-z0-9]{20,}|Filter[[:space:]]*=.*com\\.apple\\.UIKit[[:space:]]*\\)|NSAllowsArbitraryLoads[[:space:]]*=[[:space:]]*1"
+
+# Warn-only patterns
+WARN_PATTERNS="NSLog\\(|TODO|FIXME"

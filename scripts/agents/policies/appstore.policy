@@ -1,0 +1,11 @@
+# App Store profile rules
+PROFILE_NAME=appstore
+
+# Files to scan
+SCAN_GLOBS="*.{swift,m,mm,h,x,plist,entitlements,md}"
+
+# Fail if any of these patterns exist
+DENY_PATTERNS="API_KEY=|sk-[A-Za-z0-9]{20,}|NSAllowsArbitraryLoads[[:space:]]*=[[:space:]]*1|UIApplication.shared.openURL\\(|dlsym\\(|MSHookFunction|%hook|PrivateFrameworks"
+
+# Warn-only patterns
+WARN_PATTERNS="print\\(|NSLog\\(|TODO|FIXME"
