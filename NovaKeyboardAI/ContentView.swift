@@ -21,7 +21,7 @@ struct ContentView: View {
     @State private var testResult = ""
     @State private var testLatency = ""
     
-    let layouts = ["Turkish", "English"]
+    let layouts = ["Turkish", "English", "AZERTY", "QWERTZ", "Spanish", "Portuguese", "Italian"]
     let languages = ["Turkish", "English", "German", "French", "Spanish", "Arabic", "Russian", "Chinese", "Japanese", "Korean", "Italian", "Portuguese", "Dutch"]
     
     var body: some View {
@@ -122,16 +122,22 @@ struct ContentView: View {
                     // Keyboard Layout
                     settingsCard(title: "Keyboard Layout", icon: "keyboard") {
                         VStack(spacing: 10) {
-                            Picker("Layout", selection: $keyboardLayout) {
-                                ForEach(layouts, id: \.self) { Text($0) }
+                            HStack {
+                                Text("Current Layout").foregroundColor(.white.opacity(0.7)).font(.subheadline)
+                                Spacer()
+                                Picker("Layout", selection: $keyboardLayout) {
+                                    ForEach(layouts, id: \.self) { Text($0) }
+                                }
+                                .pickerStyle(.menu)
+                                .accentColor(Color(red: 0, green: 0.8, blue: 0.85))
                             }
-                            .pickerStyle(.segmented)
                             
-                            Text(keyboardLayout == "Turkish" ? "Q W E R T Y U I O P Ğ Ü" : "Q W E R T Y U I O P")
+                            Text(getLayoutPreview())
                                 .font(.system(size: 10, design: .monospaced))
                                 .foregroundColor(.white.opacity(0.4))
                         }
                     }
+
                     
                     // Translation Settings
                     settingsCard(title: "Translation", icon: "globe") {
@@ -476,12 +482,21 @@ struct ContentView: View {
                       let choices = json["choices"] as? [[String: Any]],
                       let message = choices.first?["message"] as? [String: Any],
                       let text = message["content"] as? String else {
-                    testResult = "Parse Error"
-                    return
-                }
                 testResult = text.trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }.resume()
+    }
+
+    func getLayoutPreview() -> String {
+        switch keyboardLayout {
+        case "Turkish":    return "Q W E R T Y U I O P Ğ Ü"
+        case "AZERTY":     return "A Z E R T Y U I O P"
+        case "QWERTZ":     return "Q W E R T Y Z U I O P"
+        case "Spanish":    return "Q W E R T Y U I O P"
+        case "Portuguese": return "Q W E R T Y U I O P"
+        case "Italian":    return "Q W E R T Y U I O P"
+        default:           return "Q W E R T Y U I O P"
+        }
     }
 }
 

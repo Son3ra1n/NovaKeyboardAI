@@ -24,18 +24,43 @@ enum KeyboardLayouts {
     static let englishRow2 = ["A","S","D","F","G","H","J","K","L"]
     static let englishRow3 = ["Z","X","C","V","B","N","M"]
 
+    static let azertyRow1 = ["A","Z","E","R","T","Y","U","I","O","P"]
+    static let azertyRow2 = ["Q","S","D","F","G","H","J","K","L","M"]
+    static let azertyRow3 = ["W","X","C","V","B","N"]
+
+    static let qwertzRow1 = ["Q","W","E","R","T","Z","U","I","O","P"]
+    static let qwertzRow2 = ["A","S","D","F","G","H","J","K","L"]
+    static let qwertzRow3 = ["Y","X","C","V","B","N","M"]
+
+    static let spanishRow1 = ["Q","W","E","R","T","Y","U","I","O","P"]
+    static let spanishRow2 = ["A","S","D","F","G","H","J","K","L","Ñ"]
+    static let spanishRow3 = ["Z","X","C","V","B","N","M"]
+
+    static let portugueseRow1 = ["Q","W","E","R","T","Y","U","I","O","P"]
+    static let portugueseRow2 = ["A","S","D","F","G","H","J","K","L","Ç"]
+    static let portugueseRow3 = ["Z","X","C","V","B","N","M"]
+
+    static let italianRow1 = ["Q","W","E","R","T","Y","U","I","O","P"]
+    static let italianRow2 = ["A","S","D","F","G","H","J","K","L"]
+    static let italianRow3 = ["Z","X","C","V","B","N","M"]
+
     static func rows(for layout: String) -> (row1: [String], row2: [String], row3: [String]) {
-        if layout == "Turkish" {
-            return (turkishRow1, turkishRow2, turkishRow3)
+        switch layout {
+        case "Turkish":    return (turkishRow1, turkishRow2, turkishRow3)
+        case "AZERTY":     return (azertyRow1, azertyRow2, azertyRow3)
+        case "QWERTZ":     return (qwertzRow1, qwertzRow2, qwertzRow3)
+        case "Spanish":    return (spanishRow1, spanishRow2, spanishRow3)
+        case "Portuguese": return (portugueseRow1, portugueseRow2, portugueseRow3)
+        case "Italian":    return (italianRow1, italianRow2, italianRow3)
+        default:           return (englishRow1, englishRow2, englishRow3)
         }
-        return (englishRow1, englishRow2, englishRow3)
     }
 }
 
 enum AlternateCharacters {
     static let map: [String: [String]] = [
         "A": ["À","Á","Â","Ã","Ä","Å","Æ","Ą"],
-        "E": ["È","É","Ê","Ë","Ę","Ė"],
+        "E": ["È","É","Ê","Ë","Ę","Ė","Œ"],
         "I": ["Ì","Í","Î","Ï","İ","\u{0131}"],
         "O": ["Ò","Ó","Ô","Õ","Ö","Ø","Œ"],
         "U": ["Ù","Ú","Û","Ü"],
