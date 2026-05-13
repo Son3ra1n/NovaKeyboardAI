@@ -3,9 +3,8 @@ import UIKit
 import AudioToolbox
 import os.signpost
 
-// Signpost loggers for Instruments profiling
-fileprivate let aiLog = OSLog(subsystem: "com.nova.keyboard", category: "AI")
-fileprivate let keyLog = OSLog(subsystem: "com.nova.keyboard", category: "KeyPress")
+// Signpost logger for Instruments — subsystem matches embedding target bundle ID
+fileprivate let aiLog = OSLog(subsystem: Bundle.main.bundleIdentifier ?? "com.soner.NovaAI", category: "AI")
 
 extension NovaKeyboardView {
 
@@ -62,7 +61,7 @@ extension NovaKeyboardView {
         let targetLang = SharedSettings.string(forKey: AppGroupKeys.targetLanguage) ?? "English"
 
         if nativeLang.lowercased() == targetLang.lowercased() {
-            statusMessage = "Diller aynı (iptal)"
+            statusMessage = "Same language — cancelled"
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { self.statusMessage = "Nova AI Ready" }
             return
         }
@@ -116,7 +115,7 @@ extension NovaKeyboardView {
             case .noApiKey:
                 statusMessage = controller.hasFullAccess
                     ? "API key missing — save in Nova app"
-                    : "Tam Erişim kapalı — anahtar okunamaz"
+                    : "Full Access disabled — API key unavailable"
             case .networkError:       statusMessage = "Network error"
             case .unauthorized:       statusMessage = "Invalid API Key"
             case .rateLimited:        statusMessage = "Rate limited. Wait a moment."

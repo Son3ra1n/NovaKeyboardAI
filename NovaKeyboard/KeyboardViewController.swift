@@ -6,9 +6,25 @@ class KeyboardViewController: UIInputViewController {
     private var heightConstraint: NSLayoutConstraint?
     private var didShowFullAccessAlert = false
 
+    /// Vertical chrome: status strip + outer VStack spacings + between-letter-row gaps (see `NovaKeyboardView+Pages`).
+    private static let statusChrome: CGFloat = 18
+    private static let outerVStackSpacing: CGFloat = 4
+    private static let letterRowGaps: CGFloat = 8
+
+    /// Minimum height so 3 letter rows + bottom row + status never clip inside the constrained input view.
+    private static func minimumHeight(forKeyHeight keyH: CGFloat) -> CGFloat {
+        let k = max(30, min(54, keyH))
+        return statusChrome + outerVStackSpacing + letterRowGaps + 4 * k
+    }
+
     private var customHeight: CGFloat {
-        let h = SharedSettings.double(forKey: AppGroupKeys.keyboardHeight) ?? 216
-        return h >= 180 ? CGFloat(h) : 216
+        let user = SharedSettings.double(forKey: AppGroupKeys.keyboardHeight).map { CGFloat($0) } ?? 216
+        let userClamped = user >= 180 ? user : 216
+        let keyH = SharedSettings.double(forKey: AppGroupKeys.keyHeight).map { CGFloat($0) } ?? 42
+        let needed = Self.minimumHeight(forKeyHeight: keyH)
+        let base = max(userClamped, needed)
+        let safeBottom = view.safeAreaInsets.bottom
+        return base + safeBottom
     }
 
     /// Opens the app's settings page where Full Access toggle is visible.
@@ -56,6 +72,11 @@ class KeyboardViewController: UIInputViewController {
         heightConstraint?.isActive = true
     }
 
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        heightConstraint?.constant = customHeight
+    }
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         heightConstraint?.constant = customHeight
@@ -74,11 +95,11 @@ class KeyboardViewController: UIInputViewController {
         guard !hasFullAccess, !didShowFullAccessAlert else { return }
         didShowFullAccessAlert = true
         let alert = UIAlertController(
-            title: "Tam erişim kapalı",
-            message: "Çeviri, yazım düzeltme, Groq bağlantısı ve pano için Tam Erişim gerekir.\n\nAyarlar → Genel → Klavye → Klavyeler → Nova Keyboard AI → Tam Erişim'i açın.",
+            title: "Full Access Disabled",
+            message: "Full Access is required for translation, spell check, Groq API, and clipboard.\n\nSettings → General → Keyboard → Keyboards → Nova Keyboard AI → Allow Full Access.",
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 }
